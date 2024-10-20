@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  title: Event Service API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /events:
+    get:
+      summary: Get events within a time range
+      parameters:
+        - in: query
+          name: starts_at
+          schema:
+            type: string
+            format: date-time
+          required: false
+          description: Start of the time range
+        - in: query
+          name: ends_at
+          schema:
+            type: string
+            format: date-time
+          required: false
+          description: End of the time range
+      responses:
+        '200':
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique identifier
+        start_date:
+          type: string
+          format: date
+          description: Date when the event starts in local time
+        start_time:
+          type: string
+          format: time
+          nullable: true
+          example: '10:00:00'
+          description: Time when the event starts in local time
+        end_date:
+          type: string
+          format: date
+          nullable: true
+          description: Date when the event ends in local time
+        end_time:
+          type: string
+          format: time
+          nullable: true
+          example: '12:00:00'
+          description: Time when the event ends in local time
+        title:
+          type: string
+          description: Title of the plan
+        min_price:
+          type: number
+          nullable: true
+          description: Min price from all the available tickets
+        max_price:
+          type: number
+          nullable: true
+          description: Max price from all the available tickets
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            code:
+              type: string
+        data:
+          nullable: true
+          type: object
+          default: null

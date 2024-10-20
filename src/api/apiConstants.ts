@@ -1,0 +1,11 @@
+enum SERVER_STATUS {
+    INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
+    MISSING_PARAMS = "MISSING_PARAMS",
+}
+
+const SERVER_MESSAGES = {
+    [SERVER_STATUS.MISSING_PARAMS]: "Please use both starts_at and ends_at params",
+    [SERVER_STATUS.INTERNAL_SERVER_ERROR]: "Unexpected error occurred",
+}
+
+export { SERVER_STATUS, SERVER_MESSAGES };
